@@ -1,0 +1,573 @@
+{
+  "schema": "nist_xraymasscoef_snapshot_manifest_v1",
+  "database": "NIST Tables of X-Ray Mass Attenuation Coefficients and Mass Energy-Absorption Coefficients",
+  "version": "1.4",
+  "version_date": "2004-07-12",
+  "snapshot_accessed": "2025-09-24",
+  "version_verified": "2026-06-11",
+  "base_url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/",
+  "local_corrections": [
+    {
+      "symbol": "F",
+      "field": "energy_MeV",
+      "original_local_value": 0.05,
+      "corrected_value": 0.06,
+      "reason": "The local snapshot duplicated the 50 keV energy label on the row whose coefficients are the NIST 60 keV values.",
+      "verified_against_nist": "2026-06-11"
+    }
+  ],
+  "elements": {
+    "H": {
+      "atomic_number": 1,
+      "file": "coeff/H.txt",
+      "sha256": "6ca3920def64fef4c406b06557bcf5179993df194e4ae1baba7c3bd9ddbdf265",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z01.html"
+    },
+    "He": {
+      "atomic_number": 2,
+      "file": "coeff/He.txt",
+      "sha256": "1196de0c4afb272af6a2958ed9a625e9cf7f7d89dd4098da45858a644291c192",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z02.html"
+    },
+    "Li": {
+      "atomic_number": 3,
+      "file": "coeff/Li.txt",
+      "sha256": "bf148422670b3cda411a114005c20c1acc43d9cefe310549602d095eec1b1936",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z03.html"
+    },
+    "Be": {
+      "atomic_number": 4,
+      "file": "coeff/Be.txt",
+      "sha256": "6c39523bde9fa103c3bcd10b89f76801bf1e3fc4ab5a3f1695a9fe5562de7628",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z04.html"
+    },
+    "B": {
+      "atomic_number": 5,
+      "file": "coeff/B.txt",
+      "sha256": "802d576d893ba34c2b70c3f1a4cfdbfe26db2582f60b37e6ab07e1dc254d0fe3",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z05.html"
+    },
+    "C": {
+      "atomic_number": 6,
+      "file": "coeff/C.txt",
+      "sha256": "c6f19db9327d3cfd00e41022ae1d9085d9345eace566e3a4827c9e48a0057c3b",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z06.html"
+    },
+    "N": {
+      "atomic_number": 7,
+      "file": "coeff/N.txt",
+      "sha256": "d9b5ccd3ad756f8f18496c5ad525cc7cbead48e35cf8ae0d75fa7d318c413796",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z07.html"
+    },
+    "O": {
+      "atomic_number": 8,
+      "file": "coeff/O.txt",
+      "sha256": "82ab1b4e524b3386762c9764eb9614eafe92ae51f8a3ec00de2746fc89c12d70",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z08.html"
+    },
+    "F": {
+      "atomic_number": 9,
+      "file": "coeff/F.txt",
+      "sha256": "fd7b5f14589b279fbb2096040172e27d16c400e6462733cd396aefe0d38d6b21",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z09.html"
+    },
+    "Ne": {
+      "atomic_number": 10,
+      "file": "coeff/Ne.txt",
+      "sha256": "8f6057612fcc59990ece7b9eb66d6519d1ce0f04b8e4bc1d4c329b5ac7fda8cb",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z10.html"
+    },
+    "Na": {
+      "atomic_number": 11,
+      "file": "coeff/Na.txt",
+      "sha256": "d7af827ad2e662562fe25ad22c3382659bc2fc77fc81b053699ce642f207601b",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z11.html"
+    },
+    "Mg": {
+      "atomic_number": 12,
+      "file": "coeff/Mg.txt",
+      "sha256": "ba72d2ca75d71828246667f3ef77c19e2ea2d57c39c0708dc22665647c808102",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z12.html"
+    },
+    "Al": {
+      "atomic_number": 13,
+      "file": "coeff/Al.txt",
+      "sha256": "5d845e1a6df49878abb77fd508f05f5bc306168e9c640ab6d21f29d2667b6de6",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z13.html"
+    },
+    "Si": {
+      "atomic_number": 14,
+      "file": "coeff/Si.txt",
+      "sha256": "d4beb5511423c7f02d841779b77b80dd0bfc14a017f5f2ddabd5881a335f902b",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z14.html"
+    },
+    "P": {
+      "atomic_number": 15,
+      "file": "coeff/P.txt",
+      "sha256": "ef71b54419e156ef146133c4bd09f665f79e82e1016255e82014f656f698cd0f",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z15.html"
+    },
+    "S": {
+      "atomic_number": 16,
+      "file": "coeff/S.txt",
+      "sha256": "86a2063634f244ac4fa49a8137d4dd87d334d34ac2ef72967de7935cf69dfd76",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z16.html"
+    },
+    "Cl": {
+      "atomic_number": 17,
+      "file": "coeff/Cl.txt",
+      "sha256": "a8cfa26f7e9faff7907e9d06514a5e23686d1c81d0b925b9d8c385d91447fda5",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z17.html"
+    },
+    "Ar": {
+      "atomic_number": 18,
+      "file": "coeff/Ar.txt",
+      "sha256": "3cc154eff3372e4e803fea3bcd57812d34a6371a2d5e404007254176cf001c4f",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z18.html"
+    },
+    "K": {
+      "atomic_number": 19,
+      "file": "coeff/K.txt",
+      "sha256": "08d449b68e32811c32365d68925ec6db9a8958d51550ca6c509c3a4a5d82feaa",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z19.html"
+    },
+    "Ca": {
+      "atomic_number": 20,
+      "file": "coeff/Ca.txt",
+      "sha256": "ce72b051e1a3e79db9d6f615a4abf8c651ecebf0238e50a2d15acd37d23a895f",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z20.html"
+    },
+    "Sc": {
+      "atomic_number": 21,
+      "file": "coeff/Sc.txt",
+      "sha256": "07553df36ca22e05bec5eafa418514ab05f84059910a5ec8e6b7f81f7a2906f2",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z21.html"
+    },
+    "Ti": {
+      "atomic_number": 22,
+      "file": "coeff/Ti.txt",
+      "sha256": "da81a3a5a54dad67675f8ca0f34bc72ebc2e263bd8aa8128b9b660ab722330f0",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z22.html"
+    },
+    "V": {
+      "atomic_number": 23,
+      "file": "coeff/V.txt",
+      "sha256": "a505b289c176bfc448abe9e6c584f173c373fe54c62f89ce872a560550a96456",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z23.html"
+    },
+    "Cr": {
+      "atomic_number": 24,
+      "file": "coeff/Cr.txt",
+      "sha256": "70c13cdf152402aa1ed275fdaa75e877565e3e3ccb832f651ce0c35dc97ce81c",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z24.html"
+    },
+    "Mn": {
+      "atomic_number": 25,
+      "file": "coeff/Mn.txt",
+      "sha256": "2635f00801eab18c42ae85f686d553bd19a1620bf317f1746ef5a54585af8d00",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z25.html"
+    },
+    "Fe": {
+      "atomic_number": 26,
+      "file": "coeff/Fe.txt",
+      "sha256": "2af4bf288925fe88bafec3557964dea73b73edaf0f07db0608aaf9fe01121554",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z26.html"
+    },
+    "Co": {
+      "atomic_number": 27,
+      "file": "coeff/Co.txt",
+      "sha256": "bff1ea8b888b491c03ea3929d4280a57227d83b10feccd3936bfa6c0e32fc110",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z27.html"
+    },
+    "Ni": {
+      "atomic_number": 28,
+      "file": "coeff/Ni.txt",
+      "sha256": "d6fcde85f7c9f0da8b0267f298c25553d3b65ffecaeaa06d923384ec8ef7e296",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z28.html"
+    },
+    "Cu": {
+      "atomic_number": 29,
+      "file": "coeff/Cu.txt",
+      "sha256": "bacee613c7624231dc61bd286a9b49cae80889b6fe8bda4730b86f1bafda0a68",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z29.html"
+    },
+    "Zn": {
+      "atomic_number": 30,
+      "file": "coeff/Zn.txt",
+      "sha256": "0520460d30bfe1ab1d914814f702a2666890a0c03912d56850a69530a910cbe8",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z30.html"
+    },
+    "Ga": {
+      "atomic_number": 31,
+      "file": "coeff/Ga.txt",
+      "sha256": "42e9f517e1b349d3ae7202e211c2cbf7d8b814ca3b32037e113fa4281750054f",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z31.html"
+    },
+    "Ge": {
+      "atomic_number": 32,
+      "file": "coeff/Ge.txt",
+      "sha256": "ddd6582a8808af7002a9e5e593869a87ef1dbe6aa1a8d1b7c342d77d98f51ad3",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z32.html"
+    },
+    "As": {
+      "atomic_number": 33,
+      "file": "coeff/As.txt",
+      "sha256": "a12493610b4999ee4515cc8fc2b0f8300bd17c7ea5733bc51087ea80c0def559",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z33.html"
+    },
+    "Se": {
+      "atomic_number": 34,
+      "file": "coeff/Se.txt",
+      "sha256": "110565db4e6af929d321aa251aefac2363a5741c0a1a37522463388377a5c803",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z34.html"
+    },
+    "Br": {
+      "atomic_number": 35,
+      "file": "coeff/Br.txt",
+      "sha256": "4326b7201247086b5586ee30d1f6c3b0a2241a567f9df85fa5853d0ac3ba4f01",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z35.html"
+    },
+    "Kr": {
+      "atomic_number": 36,
+      "file": "coeff/Kr.txt",
+      "sha256": "1bffb0abe628defe5fb9cc5b570577f15454ea02aec7e49a2db6e842206c7184",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z36.html"
+    },
+    "Rb": {
+      "atomic_number": 37,
+      "file": "coeff/Rb.txt",
+      "sha256": "23850c24c02e0557bc53d8218f7d1c39b1a7a362ab5d4aefef021e5ca712f5f1",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z37.html"
+    },
+    "Sr": {
+      "atomic_number": 38,
+      "file": "coeff/Sr.txt",
+      "sha256": "0342f57e2bf4c3b7116771d11b8ddb0d0a82877ad515714d92e60edb6b85be73",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z38.html"
+    },
+    "Y": {
+      "atomic_number": 39,
+      "file": "coeff/Y.txt",
+      "sha256": "8628e36aae622a3b4829b80a037dfb0df37bf48384a570ca3545a66767c53448",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z39.html"
+    },
+    "Zr": {
+      "atomic_number": 40,
+      "file": "coeff/Zr.txt",
+      "sha256": "aa29463b5a12031136f14695116e5995b80d02db3af86275f83204a4ac883a4c",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z40.html"
+    },
+    "Nb": {
+      "atomic_number": 41,
+      "file": "coeff/Nb.txt",
+      "sha256": "a45c402e7f4a2f81d411459f48fb5df63a96f00e54fe8edb44b8bcff5e508b54",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z41.html"
+    },
+    "Mo": {
+      "atomic_number": 42,
+      "file": "coeff/Mo.txt",
+      "sha256": "a5bfe082dc9ebc03a23f0ed40212616d7ebe560a81df4917506401ed9faf8357",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z42.html"
+    },
+    "Tc": {
+      "atomic_number": 43,
+      "file": "coeff/Tc.txt",
+      "sha256": "8a936d30aa37bd2ae448196b480a088135271c256a59d9cef31e3112b8df6ea8",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z43.html"
+    },
+    "Ru": {
+      "atomic_number": 44,
+      "file": "coeff/Ru.txt",
+      "sha256": "5da9a256c99e44940a52bfe1d1bee9749472423c1155a6da91d87c26571b9c75",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z44.html"
+    },
+    "Rh": {
+      "atomic_number": 45,
+      "file": "coeff/Rh.txt",
+      "sha256": "0ba93d7f62f89435ea13c1da69d3b493da75892552d095a1ff0a885a8d3f89e6",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z45.html"
+    },
+    "Pd": {
+      "atomic_number": 46,
+      "file": "coeff/Pd.txt",
+      "sha256": "5ad777b1b2714812f2c723fcead01b04dcacda27548fb8dd42ff9bfe490a3a57",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z46.html"
+    },
+    "Ag": {
+      "atomic_number": 47,
+      "file": "coeff/Ag.txt",
+      "sha256": "ceb1ca64ee5ff368ad0755d5cec72cdced7b92270bc307c68c758d549ae89203",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z47.html"
+    },
+    "Cd": {
+      "atomic_number": 48,
+      "file": "coeff/Cd.txt",
+      "sha256": "838288cc2159bed5d804fdd0daaedb0669cab8914e9223937b06ab62f60fb886",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z48.html"
+    },
+    "In": {
+      "atomic_number": 49,
+      "file": "coeff/In.txt",
+      "sha256": "f2550bfbed00a63368b595d24d83216980af44c76cb2b447816efaab6c4ca617",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z49.html"
+    },
+    "Sn": {
+      "atomic_number": 50,
+      "file": "coeff/Sn.txt",
+      "sha256": "4e932de1a3e374e8d8b743c31114a64bc662cfe71dfdb65648d02c0bedbd5b31",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z50.html"
+    },
+    "Sb": {
+      "atomic_number": 51,
+      "file": "coeff/Sb.txt",
+      "sha256": "4a8c77a9f22dafc03e4f3f16c241b8284662c775cede082c94ec4d177214ce19",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z51.html"
+    },
+    "Te": {
+      "atomic_number": 52,
+      "file": "coeff/Te.txt",
+      "sha256": "31f395dccc5e70fd6063541dd7f8249055f0fcb71ddf60d64a6cca63e5efd2b6",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z52.html"
+    },
+    "I": {
+      "atomic_number": 53,
+      "file": "coeff/I.txt",
+      "sha256": "c9804607421bafab6e8e6c16635fe1721dd372b1a5f0df65f9e89b2d45870b03",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z53.html"
+    },
+    "Xe": {
+      "atomic_number": 54,
+      "file": "coeff/Xe.txt",
+      "sha256": "61d5223f6f9f51e3ce656be9fd1396d48edebeb2ffa1a3147c4585fc4365d4db",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z54.html"
+    },
+    "Cs": {
+      "atomic_number": 55,
+      "file": "coeff/Cs.txt",
+      "sha256": "9e2cd4a6b5eda313e4494fc3015f1940a813efccdf87df1f91bf60d379ab046c",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z55.html"
+    },
+    "Ba": {
+      "atomic_number": 56,
+      "file": "coeff/Ba.txt",
+      "sha256": "8bf0ca8d8769080ce1855c1b8692e3f6f5ac64a0c5934e9cc9cc45e0c1409234",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z56.html"
+    },
+    "La": {
+      "atomic_number": 57,
+      "file": "coeff/La.txt",
+      "sha256": "4c9a06d4a69fd56cf8703b24961a0f818b77793acf62f7d2a9f8649d56147888",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z57.html"
+    },
+    "Ce": {
+      "atomic_number": 58,
+      "file": "coeff/Ce.txt",
+      "sha256": "799b555ddf35a6076222f61a9324aa83d8a8551c452fe8ad03c1e74eff3a4750",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z58.html"
+    },
+    "Pr": {
+      "atomic_number": 59,
+      "file": "coeff/Pr.txt",
+      "sha256": "837d8ce87f6796e0d3b9ce750965545b8c17d7012aadd5c43aef585c6c271958",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z59.html"
+    },
+    "Nd": {
+      "atomic_number": 60,
+      "file": "coeff/Nd.txt",
+      "sha256": "3aedd36d1bc717d891f30a8c3d28b63f5d36ff5ec2ee3f7c0754421d89bdac57",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z60.html"
+    },
+    "Pm": {
+      "atomic_number": 61,
+      "file": "coeff/Pm.txt",
+      "sha256": "748f9034521ff04b3b16db8a5813f2e63481332638d3ac9653b37c10db2dfbf9",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z61.html"
+    },
+    "Sm": {
+      "atomic_number": 62,
+      "file": "coeff/Sm.txt",
+      "sha256": "70a804cb0b5f4a9fb60e5dc4cb514c28fcb2c63c0031cd027c8c195654d716e7",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z62.html"
+    },
+    "Eu": {
+      "atomic_number": 63,
+      "file": "coeff/Eu.txt",
+      "sha256": "5b91cd12405a08d5f1286b225f3417319ca4e71d42a38c60fa18e7cb8b993846",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z63.html"
+    },
+    "Gd": {
+      "atomic_number": 64,
+      "file": "coeff/Gd.txt",
+      "sha256": "ad1df02700c8f819697fab004e018a7fb5483ed66ce2496579b711bdea2b7ed7",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z64.html"
+    },
+    "Tb": {
+      "atomic_number": 65,
+      "file": "coeff/Tb.txt",
+      "sha256": "37ede3a4dffba45d72882da93aaf8b919055d2cdfcd7667c34ae708c3c47c95b",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z65.html"
+    },
+    "Dy": {
+      "atomic_number": 66,
+      "file": "coeff/Dy.txt",
+      "sha256": "383d4e60529e8e7b0ff276c8efd50c0d2f71a3716bd5c753ebc7b2c81bcf1572",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z66.html"
+    },
+    "Ho": {
+      "atomic_number": 67,
+      "file": "coeff/Ho.txt",
+      "sha256": "56c33d1a3e8e6f34aa35f989f20f214ca9d442bf244ae8a6dc65aab6c4e0894d",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z67.html"
+    },
+    "Er": {
+      "atomic_number": 68,
+      "file": "coeff/Er.txt",
+      "sha256": "0d98b4b8122413c4b3b943e07c9d57d1ddf536e57387df8bce4dc5463cc93352",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z68.html"
+    },
+    "Tm": {
+      "atomic_number": 69,
+      "file": "coeff/Tm.txt",
+      "sha256": "b98c886939e66908755d75e8798eba40b509f26cdeea58be12b51391d684abeb",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z69.html"
+    },
+    "Yb": {
+      "atomic_number": 70,
+      "file": "coeff/Yb.txt",
+      "sha256": "1df396c63f3e89d0b2cf30658f668d4f59c890e507e6325c318b53c7dea0e853",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z70.html"
+    },
+    "Lu": {
+      "atomic_number": 71,
+      "file": "coeff/Lu.txt",
+      "sha256": "835bece16894916f93327328945de2e6da492af9c271ac1051d97d6adfe1a676",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z71.html"
+    },
+    "Hf": {
+      "atomic_number": 72,
+      "file": "coeff/Hf.txt",
+      "sha256": "2ee255a9324edad602aba9059b8320a0b5329373d81393022915fb3e996410d4",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z72.html"
+    },
+    "Ta": {
+      "atomic_number": 73,
+      "file": "coeff/Ta.txt",
+      "sha256": "e2c0e7bbe5b0dc4ac9af7a0c421f143b8568ec6b64bb3d6be1439521f82aa66d",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z73.html"
+    },
+    "W": {
+      "atomic_number": 74,
+      "file": "coeff/W.txt",
+      "sha256": "6dff4f6d9029f040825f9fc9410780c2a2946291a475bc0fbb5e8e3f2a606848",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z74.html"
+    },
+    "Re": {
+      "atomic_number": 75,
+      "file": "coeff/Re.txt",
+      "sha256": "aff3f090a19f7900e868c9e313e832669aca427f861dced4e58fadaba0cc32fc",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z75.html"
+    },
+    "Os": {
+      "atomic_number": 76,
+      "file": "coeff/Os.txt",
+      "sha256": "9a18e160b70b242691d8be5d56fb72c758fc5ef92d2613ea87f71652107fd5e2",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z76.html"
+    },
+    "Ir": {
+      "atomic_number": 77,
+      "file": "coeff/Ir.txt",
+      "sha256": "cead2c06e670e3dacc7b742895b6972473803a3c032462c56f57758ad15c8434",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z77.html"
+    },
+    "Pt": {
+      "atomic_number": 78,
+      "file": "coeff/Pt.txt",
+      "sha256": "4d06e682f5fe7c2cb517bff496be1aa68eef5380374d21c3583f44ef6e20fa71",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z78.html"
+    },
+    "Au": {
+      "atomic_number": 79,
+      "file": "coeff/Au.txt",
+      "sha256": "42162e1f1ab53b443e798077b2a5bdc13a8182de39f67e455d61d4fa8d134d30",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z79.html"
+    },
+    "Hg": {
+      "atomic_number": 80,
+      "file": "coeff/Hg.txt",
+      "sha256": "c2bd0eb1182b7523c293a88379dd67bf86e9a5599507fe9cac8ab59b46308b6e",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z80.html"
+    },
+    "Tl": {
+      "atomic_number": 81,
+      "file": "coeff/Tl.txt",
+      "sha256": "df33dae8a52a6053da73c1d22143b6501c75f56e09dfe35634d03534f0057198",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z81.html"
+    },
+    "Pb": {
+      "atomic_number": 82,
+      "file": "coeff/Pb.txt",
+      "sha256": "7f43e80524dd1fe409a9c3f792fb6357d517ae8208aa9e2f514675ec14f603c6",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z82.html"
+    },
+    "Bi": {
+      "atomic_number": 83,
+      "file": "coeff/Bi.txt",
+      "sha256": "6917aca3006685b2763284192247399450a3bcf44ae9cdd968c2a17e96ae9ef9",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z83.html"
+    },
+    "Po": {
+      "atomic_number": 84,
+      "file": "coeff/Po.txt",
+      "sha256": "e570203b7845eae1d1146e57a1984399e0816847e6b9e24069fbe9f29c28a3a5",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z84.html"
+    },
+    "At": {
+      "atomic_number": 85,
+      "file": "coeff/At.txt",
+      "sha256": "08e88d99dc6af7864e1a5e42261260993135fdbf393b005624bae4b29a84b55a",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z85.html"
+    },
+    "Rn": {
+      "atomic_number": 86,
+      "file": "coeff/Rn.txt",
+      "sha256": "13f851c91806e0b2441c444fdbf11742db44bba48e921073ea0745d74786bf67",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z86.html"
+    },
+    "Fr": {
+      "atomic_number": 87,
+      "file": "coeff/Fr.txt",
+      "sha256": "c07d66af0bb9a75b0d967447b51550c90914e773810768122e5bcf7d20ddc188",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z87.html"
+    },
+    "Ra": {
+      "atomic_number": 88,
+      "file": "coeff/Ra.txt",
+      "sha256": "64511029d2c0ffe1600d34da83301801e28e553537b0e1d63572b2d99d384831",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z88.html"
+    },
+    "Ac": {
+      "atomic_number": 89,
+      "file": "coeff/Ac.txt",
+      "sha256": "5c2022b89bf02c7faa14e426715e5250d1483cb092fb161d44f68a4531e53145",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z89.html"
+    },
+    "Th": {
+      "atomic_number": 90,
+      "file": "coeff/Th.txt",
+      "sha256": "1641d7d9dc995b11cc8f2893f8cdd81ecd0f7d0eaa6854e80c83e54c7d97d3e7",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z90.html"
+    },
+    "Pa": {
+      "atomic_number": 91,
+      "file": "coeff/Pa.txt",
+      "sha256": "9a22dae028954566f8cfb3f8b27673b3b6a066d35af71940ed337b9cf4051613",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z91.html"
+    },
+    "U": {
+      "atomic_number": 92,
+      "file": "coeff/U.txt",
+      "sha256": "215bb76a1f0f5789e872350abc7e829abb5e65b5bc98c9404292663fb5850526",
+      "url": "https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z92.html"
+    }
+  }
+}
