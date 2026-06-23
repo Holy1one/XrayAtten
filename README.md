@@ -1,54 +1,290 @@
-# X 射线衰减计算
+# XrayAtten
 
-当前目录只保留主要运行入口、运行所需数据和方法说明。材料、能量、厚度和层结构均可在对应脚本底部的 `main()` 配置中修改；运行脚本时会按需重新创建 `results/` 输出目录。
+YAML-driven X-ray attenuation workflows based on a packaged local NIST v1.4
+coefficient snapshot.
 
-## 主要程序
+**Language:** English | [Chinese](README.zh-CN.md)
 
-| 程序 | 用途 | 默认结果目录 |
+## Overview
+
+`xrayatten` computes X-ray attenuation quantities for user-defined materials
+and layered stacks. Formal workflows use the bundled local NIST v1.4 snapshot;
+online NIST XCOM queries are available only as optional comparison outputs.
+
+The package currently supports:
+
+- material coefficient tables for total attenuation and approximate energy
+  absorption;
+- primary-beam attenuation versus thickness at user-selected energies;
+- first-collision absorbed-energy estimates versus thickness;
+- cumulative primary-beam attenuation profiles through multilayer stacks.
+
+## Highlights
+
+- YAML-first workflows for reproducible calculations.
+- Packaged local data under `src/xrayatten/data`, including 92 element
+  coefficient tables and SHA-256 manifest validation.
+- One absorption-edge-aware log-log interpolation implementation shared by all
+  workflows.
+- Dense coefficient grids with selectable `precision`.
+- Provenance metadata in every TXT output.
+- Optional online NIST XCOM comparison for coefficient workflows.
+- Developer tests for data integrity, interpolation, physics rules, YAML
+  validation, and workflow outputs.
+
+## Installation
+
+Python 3.10 or newer is required.
+
+Install the released package:
+
+```bash
+python -m pip install xrayatten
+```
+
+Install optional online comparison support:
+
+```bash
+python -m pip install "xrayatten[online]"
+```
+
+Install from source for development:
+
+```bash
+python -m pip install -e ".[dev,online]"
+```
+
+If you only need local calculation from a source checkout:
+
+```bash
+python -m pip install -e .
+```
+
+## Quick Start
+
+Validate the bundled local NIST data:
+
+```bash
+xrayatten validate-data
+```
+
+Run an example workflow:
+
+```bash
+xrayatten run configs/examples/coefficients_batch.yaml
+```
+
+The module form is equivalent and useful before console scripts are on `PATH`:
+
+```bash
+python -m xrayatten validate-data
+python -m xrayatten run configs/examples/coefficients_batch.yaml
+```
+
+## Workflows
+
+| Workflow | Purpose | Energy policy |
 | --- | --- | --- |
-| `atten_coeff_local.py` | 使用本地 NIST v1.4 快照计算质量/线性衰减系数 | `results/coefficients/local/` |
-| `atten_coeff_online.py` | 在线调用 NIST XCOM v1.5 计算总质量衰减系数，可追加线性衰减列 | `results/coefficients/online/` |
-| `attenuation_vs_thickness.py` | 计算多个能量下厚度与衰减率的关系，自动识别 local/online 文件 | `results/thickness/<版本>/` |
-| `energy_absorption_vs_thickness.py` | 使用 local 的总衰减与能量吸收系数，计算首碰近似下不同能量的吸收与厚度关系 | `results/energy_absorption/local_approx/` |
-| `multilayer_transmission.py` | 计算 X 射线能谱依次穿过多层材料后的透射结果 | `results/multilayer/online/` |
+| `coefficients` | Write dense material coefficient tables for total attenuation and approximate energy absorption | Does not accept a user energy list; writes the full precision grid |
+| `attenuation_vs_thickness` | Compute primary-beam transmission and attenuation versus thickness | Uses user-provided `energies_kev` |
+| `energy_absorption_vs_thickness` | Estimate first-collision absorbed-energy fraction versus thickness | Uses user-provided `energies_kev` |
+| `multilayer_attenuation_profile` | Compute cumulative primary-beam attenuation through fixed layers | Uses user-provided `energies_kev` |
 
-常用运行顺序：
+Example configuration:
 
-```bash
-python atten_coeff_online.py
-python attenuation_vs_thickness.py
-python multilayer_transmission.py
+```yaml
+schema_version: 1
+workflow: coefficients
+output_dir: results/my_coefficients
+energies_kev: null
+precision: low
+online_comparison: false
+
+materials:
+  - id: blue_glass
+    composition_basis: atomic_ratio
+    composition:
+      Si: 50
+      B: 20
+      Li: 20
+      Mg: 10
+      Y: 2
+      Cs: 10
+      Ce: 1
+      O: 155
+      F: 9
+    density_g_cm3: 2.5
+    density_source: project configuration
 ```
 
-需要离线系数或首碰能量吸收估算时运行：
+More runnable examples are available in [configs/examples](configs/examples).
 
-```bash
-python atten_coeff_local.py
-python energy_absorption_vs_thickness.py
+## Calculation Model
+
+Material composition can be provided as either:
+
+- `atomic_ratio`: converted to mass fractions using `elements.csv`;
+- `mass_fraction`: already normalized to exactly 1.
+
+Material coefficients use mass-fraction additivity:
+
+```text
+(mu/rho)_material = sum_i w_i * (mu/rho)_i
+(mu_en/rho)_material ~= sum_i w_i * (mu_en/rho)_i
 ```
 
-## 目录说明
+If `density_g_cm3` is provided, linear coefficients are computed as:
 
-- `data/`：元素表、本地 NIST local 数据快照和示例能谱。
-- `input/`：保留的用户原始输入文件。
-- `support/`：local/online 文件读取、插值和透射辅助模块，不作为直接入口运行。
-- `docs/`：方法定义、适用范围和论文表述建议。
-- `results/`：脚本运行后自动生成的结果目录，清理后的主程序目录不常驻保存。
-
-## 数据关系
-
-- 质量衰减系数：`mu/rho`，单位 `cm2/g`。
-- 线性衰减系数：`mu = (mu/rho) * density`，单位 `1/cm`。
-- 厚度衰减：`attenuation = 1 - exp(-mu * thickness)`。
-- 首碰能量吸收估算：`absorbed = (mu_en / mu) * [1 - exp(-mu * thickness)]`。
-- 多层透射：每层依次应用 `I_after = I_before * exp(-mu * thickness)`。
-
-衰减表示离开未碰撞初级束的比例，不等于材料内实际沉积的能量比例。能量吸收脚本属于窄束首碰模型，不包含散射光子积累、几何相关逃逸/再吸收和完整光子-电子输运。论文使用前请阅读 [`docs/METHODS_VALIDATION.md`](docs/METHODS_VALIDATION.md)。
-
-## 自检
-
-```bash
-python -c "import ast,pathlib; files=list(pathlib.Path('.').rglob('*.py')); [ast.parse(p.read_text(encoding='utf-8'), filename=str(p)) for p in files]; print('syntax ok: ' + str(len(files)) + ' files')"
+```text
+mu = (mu/rho) * density
 ```
 
-online 需要网络访问 NIST；local 可完全离线运行。厚度关系图同时输出 300 dpi PNG 和矢量 PDF。
+Thickness workflows then use:
+
+```text
+T(x) = exp(-mu*x)
+R(x) = 1 - T(x)
+A_E(x) = (mu_en/mu) * (1 - exp(-mu*x))
+```
+
+`A_E` is a first-collision absorbed-energy estimate, not a full deposited-dose
+or detector-efficiency model.
+
+## Interpolation
+
+All workflows use the same interpolation implementation.
+
+1. Element tables are loaded from the local NIST v1.4 snapshot and checked
+   against manifest SHA-256 values.
+2. Energies are converted from MeV to keV for calculation and output.
+3. Repeated energy rows are treated as absorption edges.
+4. Full coefficient tables preserve both `below` and `above` edge rows.
+5. Exact single-energy queries at an edge use the `above` value.
+6. Non-edge points use piecewise log-log interpolation.
+7. Interpolation never crosses an absorption edge and never extrapolates.
+8. Non-finite interpolation results are rejected before output.
+
+The `coefficients` workflow builds a dense grid from all original NIST energy
+points, all absorption-edge rows, and additional gap-fill points controlled by
+`precision`.
+
+| `precision` | Relative density | Typical use |
+| --- | --- | --- |
+| `super` | Highest | Archival high-resolution curves |
+| `high` | High | Detailed plotting |
+| `medium` | Medium | Balanced output size and smoothness |
+| `low` | Default | Routine plotting and Origin import |
+| `fast` | Lowest | Quick preview |
+| `direct` | Original points only | NIST points and absorption-edge rows, without added grid points |
+
+## Output
+
+All TXT files include metadata header lines followed by tab-separated columns.
+
+Coefficient outputs:
+
+- attenuation: `Energy_keV`, `Edge_side`, `Mass_mu_over_rho_cm2_g`, and
+  `Linear_mu_cm_inverse` when density is available;
+- approximate energy absorption: `Energy_keV`, `Edge_side`,
+  `Mass_mu_en_over_rho_approx_cm2_g`, and
+  `Linear_mu_en_approx_cm_inverse` when density is available.
+
+Thickness attenuation outputs:
+
+- `Thickness_cm`
+- `Mass_mu_over_rho_cm2_g`
+- `Linear_mu_cm_inverse`
+- `Transmission_fraction`
+- `Attenuation_fraction`
+
+First-collision energy-absorption outputs:
+
+- `Thickness_cm`
+- `Transmission_fraction`
+- `Attenuation_fraction`
+- `First_collision_absorbed_energy_fraction`
+- `Removed_not_absorbed_fraction`
+
+Multilayer outputs:
+
+- `Depth_from_incident_surface_cm`
+- `Stack_coordinate_from_bottom_cm`
+- `Layer_id`
+- `Interface_position`
+- `Cumulative_optical_depth`
+- `Transmission_fraction`
+- `Attenuation_fraction`
+
+## Configuration Rules
+
+| Field | Rule |
+| --- | --- |
+| `schema_version` | Required; currently `1` |
+| `workflow` | One of `coefficients`, `attenuation_vs_thickness`, `energy_absorption_vs_thickness`, `multilayer_attenuation_profile` |
+| `output_dir` | Required; absolute paths are used as-is, relative paths resolve from the current working directory |
+| `composition_basis` | `atomic_ratio` or `mass_fraction` |
+| `density_g_cm3` | Positive number, or `null` only for `coefficients` |
+| `energies_kev` | Must be `null` for `coefficients`; required for attenuation, energy-absorption, and multilayer workflows |
+| `precision` | `direct`, `super`, `high`, `medium`, `low`, or `fast`; used only by `coefficients` |
+| `online_comparison` | Optional for `coefficients`; supports `atomic_ratio` materials only |
+
+Important behavior:
+
+- Configuration validation happens before output directories are created.
+- Energies are limited to the supported local NIST range; extrapolation is
+  rejected.
+- If local coefficient outputs are written but online XCOM comparison fails,
+  the error message explicitly says that local outputs were completed.
+
+## Project Layout
+
+```text
+src/xrayatten/                 package source
+src/xrayatten/data/            bundled NIST data and element metadata
+configs/examples/              runnable YAML examples
+docs/                          method, configuration, reproducibility, and migration notes
+tests/                         developer test suite
+pyproject.toml                 package metadata and optional dependencies
+```
+
+## Testing
+
+Tests are for developers, maintainers, CI, and source reviewers. They are not
+required for normal `pip install xrayatten` users.
+
+```bash
+python -m pytest -q
+python -m pytest --cov=xrayatten --cov-report=term-missing
+```
+
+Validate local data:
+
+```bash
+python -m xrayatten validate-data
+```
+
+Syntax-check without writing `__pycache__`:
+
+```bash
+python -B -c "from pathlib import Path; files=list(Path('src').rglob('*.py'))+list(Path('tests').rglob('*.py')); [compile(p.read_text(encoding='utf-8'), str(p), 'exec') for p in files]"
+```
+
+## Scientific Scope
+
+This package computes monoenergetic narrow-beam attenuation using local NIST
+coefficient tables and deterministic formulas. It does not model scattered
+photon buildup, fluorescence escape or reabsorption, bremsstrahlung transport,
+or coupled photon-electron Monte Carlo transport.
+
+Use [docs/METHODS_VALIDATION.md](docs/METHODS_VALIDATION.md) when preparing
+publication text or method descriptions.
+
+## Documentation
+
+| Document | Description |
+| --- | --- |
+| [README.zh-CN.md](README.zh-CN.md) | Chinese README |
+| [docs/METHODS_VALIDATION.md](docs/METHODS_VALIDATION.md) | Scientific formulas, limitations, and validation notes |
+| [docs/CONFIGURATION.md](docs/CONFIGURATION.md) | YAML configuration reference |
+| [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) | Data versioning, checksums, and output metadata |
+| [docs/MIGRATION.md](docs/MIGRATION.md) | Migration notes from older scripts to YAML workflows |

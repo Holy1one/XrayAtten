@@ -1,0 +1,26 @@
+{
+  "description": "Local fixed water mass-fraction additivity reference for regression tests.",
+  "composition_basis": "mass_fraction",
+  "composition": {
+    "H": 0.111894155,
+    "O": 0.888105845
+  },
+  "relative_tolerance": 1e-12,
+  "points": [
+    {
+      "energy_kev": 10.0,
+      "mass_mu_over_rho_cm2_g": 5.329129996777,
+      "mass_mu_en_over_rho_approx_cm2_g": 4.943411072957596
+    },
+    {
+      "energy_kev": 20.0,
+      "mass_mu_over_rho_cm2_g": 0.809645256782,
+      "mass_mu_en_over_rho_approx_cm2_g": 0.55027676742575
+    },
+    {
+      "energy_kev": 50.0,
+      "mass_mu_over_rho_cm2_g": 0.22688465515650003,
+      "mass_mu_en_over_rho_approx_cm2_g": 0.04223220465724999
+    }
+  ]
+}

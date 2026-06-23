@@ -1,0 +1,37 @@
+schema_version: 1
+workflow: coefficients
+output_dir: results/my_coefficients
+
+# The coefficients workflow always writes a full coefficient grid.
+# It does not accept a user-selected energy list.
+energies_kev: null
+
+# Available: direct / super / high / medium / low / fast.
+precision: low
+
+# Optional online NIST XCOM comparison. Only atomic_ratio materials are supported.
+online_comparison: false
+
+materials:
+  - id: blue_glass
+    composition_basis: atomic_ratio
+    composition:
+      Si: 50
+      B: 20
+      Li: 20
+      Mg: 10
+      Y: 2
+      Cs: 10
+      Ce: 1
+      O: 155
+      F: 9
+    density_g_cm3: 2.5
+    density_source: project configuration
+
+  - id: silica_mass_only
+    composition_basis: atomic_ratio
+    composition:
+      Si: 1
+      O: 2
+    density_g_cm3: null
+    density_source: not provided; mass coefficients only

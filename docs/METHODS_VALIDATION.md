@@ -1,4 +1,102 @@
-# 厚度关系计算方法与验证
+# 方法与验证
+
+本文档对应新的 YAML workflow 与 `src/xrayatten/` package。正式计算以本地 NIST v1.4 snapshot 为唯一数据源；online XCOM v1.5 只允许作为 `coefficients` workflow 中显式开启的 attenuation comparison。
+
+## 1. 材料组成和系数
+
+支持 `atomic_ratio` 和 `mass_fraction`。`atomic_ratio` 先按元素原子量转换为质量分数；`mass_fraction` 必须严格归一化为 1。
+
+总质量衰减系数：
+
+```text
+mu/rho = sum(w_i * (mu/rho)_i)
+```
+
+线性总衰减系数：
+
+```text
+mu = (mu/rho) * density
+```
+
+插值规则固定为 `piecewise log-log interpolation`。重复能量行表示吸收边，TXT 中标记 `below` 和 `above`；精确命中吸收边时使用 `above` 值；禁止外推。所有 local workflow 都验证 manifest SHA-256。
+
+## 2. 厚度-初级束衰减
+
+`attenuation_vs_thickness` 输出列至少包括：
+
+```text
+Thickness_cm
+Mass_mu_over_rho_cm2_g
+Linear_mu_cm_inverse
+Transmission_fraction
+Attenuation_fraction
+```
+
+PNG 坐标：
+
+```text
+x-axis: Thickness (cm)
+y-axis: Primary-beam attenuation (%)
+```
+
+其中 `Attenuation_fraction = 1 - exp(-mu*x)` 表示离开未碰撞初级束的比例，不是材料能量沉积率。
+
+## 3. 厚度-首碰能量吸收估算
+
+`energy_absorption_vs_thickness` 使用：
+
+```text
+First-collision absorbed energy estimate
+A_E(x) = (mu_en / mu) * [1 - exp(-mu*x)]
+```
+
+输出列至少包括：
+
+```text
+Thickness_cm
+Transmission_fraction
+Attenuation_fraction
+First_collision_absorbed_energy_fraction
+Removed_not_absorbed_fraction
+```
+
+`mu_en/rho` 对自定义化合物使用 `elemental mass-fraction additivity approximation`。该估算不含散射光子 buildup、荧光逃逸/再吸收、制动辐射几何效应或耦合光子-电子 Monte Carlo 输运，不能命名为 detector efficiency、total absorption efficiency 或 final energy deposition。
+
+## 4. 固定厚度多层空间剖面
+
+`multilayer_attenuation_profile` 使用 YAML 中的 `energies_kev` 逐能量计算。YAML 中 `layers[0]` 是最顶层，射线先穿过；总厚度 `H` 是所有 `thickness_cm` 之和。坐标定义：
+
+```text
+s = depth from top incident surface
+y = H - s = stack coordinate from bottom
+```
+
+每个能量输出一个 TXT，列至少包括：
+
+```text
+Depth_from_incident_surface_cm
+Stack_coordinate_from_bottom_cm
+Layer_id
+Interface_position
+Cumulative_optical_depth
+Transmission_fraction
+Attenuation_fraction
+```
+
+PNG 坐标：
+
+```text
+x-axis: Primary-beam attenuation (%)
+y-axis: Stack coordinate from bottom (cm)
+```
+
+## 5. 验证范围
+
+测试覆盖 manifest schema、92 个 local NIST 表 SHA-256、元素表、F 60 keV 修正记录、组成换算、严格 `mass_fraction`、吸收边 above 规则、禁止外推、厚度网格终点、`T + R = 1`、`mu_en <= mu`、首碰能量守恒分解、多层边界与坐标，以及 online fixture/mock 解析。
+
+NIST liquid water reference fixture 固定在 `tests/fixtures/nist_water_reference.json`，普通测试不访问真实网络。
+
+<!-- LEGACY METHODS BELOW, retained for historical traceability only.
 
 本文档说明 `attenuation_vs_thickness.py` 和 `energy_absorption_vs_thickness.py` 的物理量、密度处理、输入兼容性及验证范围。论文中应按这里的定义命名纵轴，避免将初级束衰减误写成材料能量吸收。
 
@@ -76,3 +174,4 @@ A_E(x) = integral[0,x] dA_E
 - [NIST XCOM introduction and scope](https://physics.nist.gov/PhysRefData/Xcom/Text/intro.html)
 - [NIST X-Ray Mass Attenuation Coefficients introduction](https://physics.nist.gov/PhysRefData/XrayMassCoef/intro.html)
 - [NIST liquid water reference table](https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/water.html)
+-->

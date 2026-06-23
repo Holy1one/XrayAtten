@@ -1,0 +1,46 @@
+schema_version: 1
+workflow: attenuation_vs_thickness
+output_dir: results/my_attenuation_thickness
+
+material:
+  id: blue_glass
+  composition_basis: atomic_ratio
+  composition:
+    Si: 50
+    B: 20
+    Li: 20
+    Mg: 10
+    Y: 2
+    Cs: 10
+    Ce: 1
+    O: 155
+    F: 9
+  density_g_cm3: 2.5
+  density_source: project configuration
+
+# User-selected energies for this workflow.
+energies_kev:
+  - 10
+  - 20
+  - 30
+  - 40
+  - 50
+  - 60
+  - 70
+  - 80
+  - 90
+  - 100
+  - 110
+  - 120
+  - 130
+  - 140
+  - 150
+  - 160
+  - 170
+  - 180
+  - 190
+  - 200
+
+thickness:
+  maximum_cm: 1.0
+  step_cm: 0.001
