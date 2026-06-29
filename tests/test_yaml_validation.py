@@ -33,7 +33,7 @@ thickness:
     assert not (workspace_tmp / "out").exists()
 
 
-def test_coefficients_rejects_explicit_energies(workspace_tmp):
+def test_coefficients_rejects_points_and_range_together(workspace_tmp):
     config = write_yaml(
         workspace_tmp / "bad_coeff.yaml",
         f"""
@@ -41,6 +41,9 @@ schema_version: 1
 workflow: coefficients
 output_dir: {workspace_tmp / "out"}
 energies_kev: [10, 20]
+energy_range_kev:
+  start: 10
+  stop: 20
 materials:
   - id: silica
     composition_basis: atomic_ratio
@@ -50,9 +53,34 @@ materials:
     density_g_cm3: 2.2
 """,
     )
-    with pytest.raises(Exception, match="energies_kev"):
+    with pytest.raises(Exception, match="either energies_kev or energy_range_kev"):
         run_config(config)
     assert not (workspace_tmp / "out").exists()
+
+
+def test_coefficients_rejects_invalid_energy_range_before_output(workspace_tmp):
+    config = write_yaml(
+        workspace_tmp / "bad_range.yaml",
+        f"""
+schema_version: 1
+workflow: coefficients
+output_dir: {workspace_tmp / "out_bad_range"}
+energies_kev: null
+energy_range_kev:
+  start: 20
+  stop: 10
+materials:
+  - id: silica
+    composition_basis: atomic_ratio
+    composition:
+      Si: 1
+      O: 2
+    density_g_cm3: 2.2
+""",
+    )
+    with pytest.raises(Exception, match="energy_range_kev.start"):
+        run_config(config)
+    assert not (workspace_tmp / "out_bad_range").exists()
 
 
 def test_relative_output_dir_resolves_from_current_working_directory(workspace_tmp, monkeypatch):

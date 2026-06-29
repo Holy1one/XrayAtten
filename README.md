@@ -11,6 +11,12 @@ coefficient snapshot.
 and layered stacks. Formal workflows use the bundled local NIST v1.4 snapshot;
 online NIST XCOM queries are available only as optional comparison outputs.
 
+**Release note:** This update expands the coefficients workflow with selected
+energy-point output and bounded energy-range export. Range exports reuse the
+configured precision grid, preserve absorption-edge handling, and reject empty
+or invalid ranges, making batch attenuation and approximate energy-absorption
+tables easier to publish, compare, and reproduce across GitHub and PyPI releases.
+
 The package currently supports:
 
 - material coefficient tables for total attenuation and approximate energy
@@ -85,7 +91,7 @@ python -m xrayatten run configs/examples/coefficients_batch.yaml
 
 | Workflow | Purpose | Energy policy |
 | --- | --- | --- |
-| `coefficients` | Write dense material coefficient tables for total attenuation and approximate energy absorption | Does not accept a user energy list; writes the full precision grid |
+| `coefficients` | Write material coefficient tables for total attenuation and approximate energy absorption | Uses the full precision grid by default; can use selected `energies_kev` points or an `energy_range_kev` precision-grid subset |
 | `attenuation_vs_thickness` | Compute primary-beam transmission and attenuation versus thickness | Uses user-provided `energies_kev` |
 | `energy_absorption_vs_thickness` | Estimate first-collision absorbed-energy fraction versus thickness | Uses user-provided `energies_kev` |
 | `multilayer_attenuation_profile` | Compute cumulative primary-beam attenuation through fixed layers | Uses user-provided `energies_kev` |
@@ -97,6 +103,10 @@ schema_version: 1
 workflow: coefficients
 output_dir: results/my_coefficients
 energies_kev: null
+# Optional range mode; leave unset unless requesting a precision-grid subset.
+# energy_range_kev:
+#   start: 10
+#   stop: 100
 precision: low
 online_comparison: false
 
@@ -166,7 +176,9 @@ All workflows use the same interpolation implementation.
 
 The `coefficients` workflow builds a dense grid from all original NIST energy
 points, all absorption-edge rows, and additional gap-fill points controlled by
-`precision`.
+`precision`. With `energy_range_kev`, that same precision grid is filtered to
+the inclusive range; the range mode does not add arbitrary boundary points. With
+`energies_kev`, only the requested points are written.
 
 | `precision` | Relative density | Typical use |
 | --- | --- | --- |
@@ -224,7 +236,8 @@ Multilayer outputs:
 | `output_dir` | Required; absolute paths are used as-is, relative paths resolve from the current working directory |
 | `composition_basis` | `atomic_ratio` or `mass_fraction` |
 | `density_g_cm3` | Positive number, or `null` only for `coefficients` |
-| `energies_kev` | Must be `null` for `coefficients`; required for attenuation, energy-absorption, and multilayer workflows |
+| `energies_kev` | `null` or a non-empty selected point list for `coefficients`; required for attenuation, energy-absorption, and multilayer workflows |
+| `energy_range_kev` | Optional `{start, stop}` range for `coefficients`; mutually exclusive with a non-null `energies_kev`; uses the selected `precision` grid |
 | `precision` | `direct`, `super`, `high`, `medium`, `low`, or `fast`; used only by `coefficients` |
 | `online_comparison` | Optional for `coefficients`; supports `atomic_ratio` materials only |
 

@@ -166,6 +166,27 @@ def energies_from_config(value: object, *, allow_null: bool) -> list[float] | No
     return energies
 
 
+def energy_range_from_config(value: object) -> tuple[float, float] | None:
+    if value is None:
+        return None
+    if not isinstance(value, dict):
+        raise ConfigError("energy_range_kev must be a mapping with start and stop")
+    allowed = {"start", "stop"}
+    unknown = set(value) - allowed
+    if unknown:
+        raise ConfigError(f"energy_range_kev contains unsupported keys: {sorted(unknown)}")
+    if "start" not in value or "stop" not in value:
+        raise ConfigError("energy_range_kev requires start and stop")
+    try:
+        start = validate_positive_finite(value.get("start"), "energy_range_kev.start")
+        stop = validate_positive_finite(value.get("stop"), "energy_range_kev.stop")
+    except Exception as exc:
+        raise ConfigError(str(exc)) from exc
+    if start >= stop:
+        raise ConfigError("energy_range_kev.start must be smaller than energy_range_kev.stop")
+    return start, stop
+
+
 def thickness_from_config(data: object) -> tuple[float, float]:
     if not isinstance(data, dict):
         raise ConfigError("thickness must be a mapping")
@@ -181,8 +202,10 @@ def validate_coefficients_config(data: dict[str, Any]) -> dict[str, Any]:
     workflow, output_dir = validate_common(data)
     if workflow != "coefficients":
         raise ConfigError("Expected workflow: coefficients")
-    if data.get("energies_kev") is not None:
-        raise ConfigError("coefficients workflow writes the full coefficient grid; energies_kev must be null")
+    energies = energies_from_config(data.get("energies_kev"), allow_null=True)
+    energy_range = energy_range_from_config(data.get("energy_range_kev"))
+    if energies is not None and energy_range is not None:
+        raise ConfigError("coefficients workflow accepts either energies_kev or energy_range_kev, not both")
     materials_raw = data.get("materials")
     if not isinstance(materials_raw, list) or not materials_raw:
         raise ConfigError("materials must be a non-empty list")
@@ -194,6 +217,8 @@ def validate_coefficients_config(data: dict[str, Any]) -> dict[str, Any]:
     if len(set(ids)) != len(ids):
         raise ConfigError("material ids must be unique")
     online_comparison = bool(data.get("online_comparison", False))
+    if online_comparison and energy_range is not None:
+        raise ConfigError("online_comparison does not support energy_range_kev; use energies_kev or null")
     if online_comparison:
         unsupported_online = [
             material.id for material in materials
@@ -212,7 +237,8 @@ def validate_coefficients_config(data: dict[str, Any]) -> dict[str, Any]:
         "workflow": workflow,
         "output_dir": output_dir,
         "materials": materials,
-        "energies_kev": None,
+        "energies_kev": energies,
+        "energy_range_kev": energy_range,
         "online_comparison": online_comparison,
         "precision": precision,
     }

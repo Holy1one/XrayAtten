@@ -2,9 +2,14 @@ schema_version: 1
 workflow: coefficients
 output_dir: results/my_coefficients
 
-# The coefficients workflow always writes a full coefficient grid.
-# It does not accept a user-selected energy list.
+# Use null for the full coefficient grid, a list for selected energy points,
+# or energy_range_kev below for a precision-grid subset.
 energies_kev: null
+
+# Optional range mode. Leave commented when energies_kev is a list or null.
+# energy_range_kev:
+#   start: 10
+#   stop: 100
 
 # Available: direct / super / high / medium / low / fast.
 precision: low

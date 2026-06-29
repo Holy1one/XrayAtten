@@ -231,6 +231,36 @@ def build_compound_dense_grid(
     return grid, edge_sides
 
 
+def build_compound_range_grid(
+    element_tables: dict[str, CoefficientTable],
+    precision: str,
+    start_kev: float,
+    stop_kev: float,
+) -> tuple[np.ndarray, list[str]]:
+    """Return the precision grid rows inside an inclusive energy range."""
+    if not math.isfinite(start_kev) or not math.isfinite(stop_kev) or start_kev <= 0 or stop_kev <= 0:
+        raise InterpolationError("energy_range_kev values must be positive finite values")
+    if start_kev >= stop_kev:
+        raise InterpolationError("energy_range_kev.start must be smaller than energy_range_kev.stop")
+
+    grid, edge_sides = build_compound_dense_grid(element_tables, precision)
+    min_grid = float(grid[0])
+    max_grid = float(grid[-1])
+    tolerance = 1e-9
+    if start_kev < min_grid - tolerance or stop_kev > max_grid + tolerance:
+        raise InterpolationError(
+            f"energy_range_kev must stay within the local NIST range {min_grid:g}-{max_grid:g} keV"
+        )
+
+    mask = (grid >= start_kev - tolerance) & (grid <= stop_kev + tolerance)
+    if not np.any(mask):
+        raise InterpolationError(
+            "energy_range_kev contains no points from the selected precision grid; "
+            "use a wider range or a higher precision"
+        )
+    return grid[mask], [side for side, keep in zip(edge_sides, mask) if keep]
+
+
 def interpolate_element_to_grid(
     table: CoefficientTable,
     coefficients: np.ndarray,

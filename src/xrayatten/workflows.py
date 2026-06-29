@@ -61,6 +61,7 @@ def run_config(path: str | Path) -> WorkflowResult:
 def run_coefficients(config: dict) -> WorkflowResult:
     output_dir: Path = config["output_dir"]
     energies_kev = config["energies_kev"]
+    energy_range_kev = config.get("energy_range_kev")
     precision: str = config.get("precision", "low")
     output_paths: list[Path] = []
     for material in config["materials"]:
@@ -68,7 +69,17 @@ def run_coefficients(config: dict) -> WorkflowResult:
         attenuation_dir = output_dir / "attenuation"
         attenuation_txt = attenuation_dir / f"{material.id}_attenuation_local.txt"
         attenuation_png = attenuation_dir / f"{material.id}_attenuation_local.png"
-        output_paths.append(write_dense_coefficient_result(attenuation_txt, attenuation, precision=precision))
+        if energies_kev is None:
+            output_paths.append(
+                write_dense_coefficient_result(
+                    attenuation_txt,
+                    attenuation,
+                    precision=precision,
+                    energy_range_kev=energy_range_kev,
+                )
+            )
+        else:
+            output_paths.append(write_coefficient_result(attenuation_txt, attenuation))
         output_paths.append(plot_coefficient_from_txt(attenuation_txt, attenuation_png))
 
         absorption = compute_coefficients(
@@ -79,7 +90,17 @@ def run_coefficients(config: dict) -> WorkflowResult:
         absorption_dir = output_dir / "energy_absorption"
         absorption_txt = absorption_dir / f"{material.id}_energy_absorption_approx_local.txt"
         absorption_png = absorption_dir / f"{material.id}_energy_absorption_approx_local.png"
-        output_paths.append(write_dense_coefficient_result(absorption_txt, absorption, precision=precision))
+        if energies_kev is None:
+            output_paths.append(
+                write_dense_coefficient_result(
+                    absorption_txt,
+                    absorption,
+                    precision=precision,
+                    energy_range_kev=energy_range_kev,
+                )
+            )
+        else:
+            output_paths.append(write_coefficient_result(absorption_txt, absorption))
         output_paths.append(plot_coefficient_from_txt(absorption_txt, absorption_png))
 
     if config["online_comparison"]:

@@ -8,7 +8,7 @@ from typing import Iterable, Sequence
 import numpy as np
 import pandas as pd
 
-from .interpolation import build_compound_dense_grid, interpolate_element_to_grid
+from .interpolation import build_compound_dense_grid, build_compound_range_grid, interpolate_element_to_grid
 from .models import CoefficientResult
 from .provenance import runtime_metadata
 
@@ -63,6 +63,7 @@ def write_dense_coefficient_result(
     path: Path,
     result: CoefficientResult,
     precision: str = "low",
+    energy_range_kev: tuple[float, float] | None = None,
 ) -> Path:
     """Write coefficient TXT with dense log-log interpolation for smooth Origin plots.
 
@@ -76,8 +77,13 @@ def write_dense_coefficient_result(
 
     weights = result.mass_fractions
 
-    # Build unified dense grid from ALL element tables (preserves every edge)
-    grid_kev, edge_sides = build_compound_dense_grid(tables, precision)
+    # Build unified precision grid from ALL element tables (preserves every edge).
+    if energy_range_kev is None:
+        grid_kev, edge_sides = build_compound_dense_grid(tables, precision)
+        grid_strategy = "all NIST points + all element edges + gap fill"
+    else:
+        grid_kev, edge_sides = build_compound_range_grid(tables, precision, *energy_range_kev)
+        grid_strategy = "selected energy range from precision grid"
 
     # Interpolate each element to the dense grid, then combine
     dense_mass = np.zeros(len(grid_kev), dtype=float)
@@ -114,13 +120,15 @@ def write_dense_coefficient_result(
     metadata = {
         **result.metadata,
         "interpolation": "per-element dense log-log, then mass-fraction additivity",
-        "grid_strategy": "all NIST points + all element edges + gap fill",
+        "grid_strategy": grid_strategy,
         "precision": precision,
         "grid_points": str(len(grid_kev)),
         "workflow_columns": " ".join(columns),
         "warnings": " | ".join(result.warnings) if result.warnings else "none",
         "limitations": " | ".join(result.limitations) if result.limitations else "none",
     }
+    if energy_range_kev is not None:
+        metadata["energy_range_kev"] = f"{energy_range_kev[0]:.12g}-{energy_range_kev[1]:.12g}"
     return write_dataframe(path, frame, metadata)
 
 
@@ -132,4 +140,3 @@ def write_text_table(
 ) -> Path:
     frame = pd.DataFrame(list(rows), columns=list(columns))
     return write_dataframe(path, frame, metadata)
-
